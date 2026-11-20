@@ -1,0 +1,15 @@
+.env
+env_mipos/
+__pycache__/
+*.pyc
+Datos/MiPos.db
+static/img/productos/*.jpg
+static/img/productos/*.jpeg
+static/img/productos/*.png
+static/img/productos/*.webp
+static/img/productos/*.gif
+!static/img/productos/iconos/
+!static/img/productos/iconos/**
+!static/img/sin_imagen/
+!static/img/sin_imagen/**
+app_sqlite_backup.py

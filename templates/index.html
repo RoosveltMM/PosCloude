@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}MiPos — Inicio{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block contenido %}
+<div class="hero">
+    <div class="hero-texto">
+        <p class="hero-sub">Sistema de punto de venta</p>
+        <h1 class="hero-titulo">Panadería y Pasteleria<br><span class="acento">MATOS</span></h1>
+        <p class="hero-desc">Gestiona tus productos, precios y ventas desde un solo lugar.</p>
+        <div class="hero-botones">
+            <a href="{{ url_for('catalogo') }}" class="btn-primario">Ver catálogo</a>
+            <a href="{{ url_for('acceso') }}" class="btn-secundario">Acceso personal</a>
+        </div>
+    </div>
+    <div class="hero-deco">
+        <div class="deco-circulo"></div>
+        <div class="deco-icono">🛒</div>
+    </div>
+</div>
+{% endblock %}

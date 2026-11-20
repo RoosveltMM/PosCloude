@@ -1,0 +1,292 @@
+/* ── Configuración ────────────────────────────────────── */
+.config-wrap {
+    max-width: 700px;
+}
+
+.config-titulo {
+    font-family: var(--font-titulo);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--verde);
+    margin-bottom: 2rem;
+}
+
+.config-seccion {
+    background: var(--blanco);
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.config-seccion h2 {
+    font-family: var(--font-titulo);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--verde);
+    margin-bottom: .5rem;
+}
+
+.config-desc {
+    font-size: .85rem;
+    color: var(--texto2);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.config-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.inline-form {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+.inline-form input {
+    flex: 1;
+    min-width: 200px;
+    padding: .6rem .85rem;
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-sm);
+    font-size: .9rem;
+}
+.inline-form input:focus {
+    outline: none;
+    border-color: var(--verde2);
+}
+
+/* Lista de categorias */
+.lista-categorias {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.cat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .6rem 1rem;
+    background: var(--bg);
+    border-radius: var(--radio-sm);
+    border: 1px solid var(--borde);
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.btn-danger-sm {
+    font-size: .8rem;
+    color: #dc3545;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background .15s;
+}
+.btn-danger-sm:hover { background: #fff0f0; }
+
+/* ── Alerta de precios ────────────────────────────────── */
+.alerta-seccion { border-color: #f0a500; background: #fffdf0; }
+.alerta-seccion h2 { color: #b87800; }
+
+.tabla-alertas { margin-top: 1rem; }
+.tabla-header, .tabla-fila {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr;
+    gap: .5rem;
+    padding: .5rem .75rem;
+    font-size: .85rem;
+    justify-items: center;
+    
+}
+.tabla-header {
+    font-weight: 700;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--texto2);
+    border-bottom: 1px solid var(--borde);
+}
+.tabla-fila {
+    border-bottom: 1px solid var(--borde);
+    align-items: center;
+}
+.tabla-fila:last-child { border-bottom: none; }
+.tabla-fila:hover { background: var(--bg); }
+.text-muted { color: var(--texto2); }
+.campo-nota {
+    font-size: .78rem;
+    color: var(--texto2);
+    margin-top: .3rem;
+}
+
+.botonCheck{
+    background-color: #57b376;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    height: 2rem;
+    width: 4.5rem;
+    place-self: center;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.checkxd{
+    height: 20px;
+    width: 20px;
+    border: 0;
+    border-radius: 50%;
+}
+.botonCheck:hover{
+    cursor: pointer;
+    border: 0.25px solid black;
+    transition: transform 0.2s;
+}
+
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: #ffc107; /* Color amarillo/naranja */
+    width: 0%;
+    z-index: 20; /* Prioridad alta */
+    opacity: 1 !important; /* Siempre sólida */
+}
+
+.btn-undo {
+    z-index: 21; /* Por encima de la barra */
+    opacity: 1 !important;
+    background: #fe8300;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-info-producto {
+    background: none;
+    border: none;
+    color: var(--naranja);
+    font-size: .85rem;
+    cursor: pointer;
+    padding: 0 3px;
+    vertical-align: middle;
+}
+
+.info-popup {
+    position: absolute;
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+    padding: .5rem .75rem;
+    font-size: .78rem;
+    color: var(--texto);
+    box-shadow: var(--sombra);
+    z-index: 50;
+    white-space: nowrap;
+    left: 0;
+    top: 100%;
+    margin-top: 4px;
+}
+
+.icono-info{
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.input-precio-alerta {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-sm);
+    font-size: .85rem;
+    font-family: var(--font-cuerpo);
+    color: var(--texto);
+    background: white;
+    text-align: center;
+}
+
+.input-precio-alerta:focus {
+    outline: none;
+    border-color: var(--naranja);
+}
+
+.input-precio-alerta.modificado {
+    border-color: var(--naranja);
+    background: #fff8f0;
+}
+
+#nombre{
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    text-align: left !important;
+    width: 100%;
+}
+
+.text-muted{
+    display: flex;
+    justify-content: center;
+} 
+.texto-nombre{
+    display: block !important;
+    text-align: left !important;
+    margin-right: 8px; /* Espacio entre el texto y el ícono */
+}
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 600px){
+    .campo-fila{
+        flex-direction: column;
+    }
+
+    .config-seccion{
+        padding: 0.75rem;
+    }
+
+    .alerta-seccion{
+        padding: 1rem 0.5rem;
+    }
+
+    .config-desc{
+        padding: 0 1rem;
+    }
+
+    .tabla-header,.tabla-fila{
+        font-weight: 500;
+        grid-template-columns: 1.25fr 1fr 1fr;
+        font-size: 0.75rem;
+        padding: .4rem 0;
+    }
+
+    .tabla-header{
+        font-weight: bolder;
+        font-size: 0.65rem;
+    }
+
+    /* Ocultar columnas Categoría y Último cambio */
+    .tabla-header span:nth-child(2),
+    .tabla-header span:nth-child(4),
+    .tabla-fila span:nth-child(3),
+    .tabla-fila span:nth-child(5) {
+        display: none;
+    }
+    
+    .input-precio-alerta{
+        height: 2.5rem;
+        width: 100%;
+    }
+
+    .botonCheck{
+        width: 4rem;
+    }
+}

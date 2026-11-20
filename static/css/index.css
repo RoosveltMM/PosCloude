@@ -1,0 +1,79 @@
+/* ── Hero ─────────────────────────────────────────────── */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    min-height: calc(100vh - 120px);
+    padding: 3rem 0;
+}
+
+.hero-sub {
+    font-size: .85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--naranja);
+    margin-bottom: .75rem;
+}
+
+.hero-titulo {
+    font-family: 'Sour Gummy','Syne',sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--verde);
+    margin-bottom: 1.25rem;
+}
+
+.acento { color: var(--naranja); }
+
+.hero-desc {
+    font-size: 1.05rem;
+    color: var(--texto2);
+    max-width: 400px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.hero-botones {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Decoración derecha */
+.hero-deco {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.deco-circulo {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde2) 100%);
+    opacity: .08;
+}
+
+.deco-icono {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    animation: flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50%       { transform: translate(-50%, -50%) translateY(-12px); }
+}
+
+@media (max-width: 768px) {
+    .hero { flex-direction: column; text-align: center; min-height: auto; }
+    .hero-desc { margin: 0 auto 2rem; }
+    .hero-botones { justify-content: center; }
+    .deco-circulo { width: 200px; height: 200px; }
+    .deco-icono { font-size: 5rem; }
+}

@@ -1,0 +1,493 @@
+/* ── Encabezado ───────────────────────────────────────── */
+.catalogo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.catalogo-titulo {
+    font-family: var(--font-cuerpo);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--verde);
+}
+
+.catalogo-sub {
+    font-size: .85rem;
+    color: var(--texto2);
+    margin-top: .2rem;
+}
+
+.btn-nuevo {
+    background: var(--verde);
+    color: var(--blanco);
+    padding: .6rem 1.25rem;
+    border-radius: var(--radio-sm);
+    font-size: .9rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background .2s;
+    white-space: nowrap;
+}
+.btn-nuevo:hover { background: var(--verde2); }
+
+/* ── Búsqueda ─────────────────────────────────────────── */
+.barra-busqueda {
+    margin-bottom: 1rem;
+}
+.barra-busqueda input {
+    width: 100%;
+    max-width: 460px;
+    padding: .65rem 1rem;
+    border: 1.5px solid var(--borde);
+    border-radius: 30px;
+    background: var(--blanco);
+    font-size: .9rem;
+    color: var(--texto);
+    transition: border-color .2s;
+}
+.barra-busqueda input:focus {
+    outline: none;
+    border-color: var(--verde2);
+}
+
+/* ── Filtros de categoría ─────────────────────────────── */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 1.75rem;
+}
+
+.filtro-btn {
+    padding: .45rem 1.1rem;
+    border-radius: 30px;
+    border: 1.5px solid var(--borde);
+    font-size: .83rem;
+    font-weight: 500;
+    color: var(--texto2);
+    background: var(--blanco);
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+}
+.filtro-btn:hover {
+    border-color: var(--verde);
+    color: var(--verde);
+}
+.filtro-btn.activo {
+    background: var(--verde);
+    color: var(--blanco);
+    border-color: var(--verde);
+}
+
+/* ── Grid de productos ────────────────────────────────── */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ── Tarjeta ──────────────────────────────────────────── */
+.tarjeta {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    border: 1.5px solid var(--borde);
+    overflow: hidden;
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+    cursor: default;
+}
+.tarjeta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(30,58,47,.12);
+}
+
+/* Botón menú 3 puntos */
+.tarjeta-menu {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+}
+.btn-menu {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(4px);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--texto);
+    transition: background .15s;
+}
+.btn-menu:hover { background: var(--blanco); }
+
+/* Dropdown menú */
+.menu-drop {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 36px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    min-width: 130px;
+    z-index: 20;
+    overflow: hidden;
+}
+.menu-drop.visible { display: block; }
+.menu-drop a {
+    display: block;
+    padding: .55rem 1rem;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--texto);
+    transition: background .15s;
+}
+.menu-drop a:hover { background: var(--bg); }
+.menu-drop a.rojo { color: #dc3545; }
+.menu-drop a.rojo:hover { background: #fff0f0; }
+
+/* Imagen */
+.tarjeta-img-wrap {
+    width: 100%;
+    height: 200px;
+    background: var(--bg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.tarjeta-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform .3s;
+}
+.tarjeta:hover .tarjeta-img { transform: scale(1.04); }
+
+/* Info */
+.tarjeta-info {
+    padding: .85rem;
+    position: relative;
+}
+.tarjeta-categoria {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--naranja);
+    margin-bottom: .4rem;
+}
+.tarjeta-nombre {
+    font-family: var(--font-titulo);
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--verde);
+    line-height: 1.3;
+    margin-bottom: .5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.tarjeta-precio {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--naranja);
+    font-family: var(--font-titulo);
+    display: flex;
+}
+.seActualizo{
+    position: absolute;
+    bottom: .85rem;
+    right: .85rem;
+
+    font-size: .52rem;
+    font-weight: 700;
+    padding: 8px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-family: sans-serif;
+    z-index: 50; /* Lo traemos al frente de todo para recibir el clic */
+    cursor: pointer; /* Forzamos que aparezca la manito */
+    transition: all 0.2s ease;/* Animación suave para el cambio de color */
+}
+
+/* Efecto visual al pasar el mouse por encima (Opcional pero recomendado) */
+.seActualizo:hover {
+    transform: scale(1.08);        /* Crece un poquito al apuntarlo */
+    filter: brightness(0.95);      /* Se oscurece ligeramente */
+}
+
+/* Estado cuando la fecha en Supabase es NULL (Precio antiguo) */
+.status-pendiente{
+    background-color: #ffbb73;
+    color: #ffffff;
+    border: 1px solid #f8dcb0;
+}
+
+/* Estado cuando el producto ya ha sido modificado */
+.status-ok {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+/* Sin productos */
+.sin-productos {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--texto2);
+}
+.sin-productos p { font-size: 1rem; margin-bottom: 1rem; }
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 480px) {
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: .75rem;
+    }
+}
+
+/* ── Favoritos ────────────────────────────────────────── */
+.filtro-fav { border-color: #f0a500; color: #b87800; }
+.filtro-fav.activo { background: #f0a500; color: white; border-color: #f0a500; }
+
+.tarjeta.es-favorito { border-color: #f0a500; }
+.badge-fav {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: .85rem;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* ── Alerta badge en header ───────────────────────────── */
+.header-acciones {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.alerta-precio-badge {
+    display: inline-block;
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+    padding: .4rem .9rem;
+    border-radius: 20px;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+.alerta-precio-badge:hover { background: #ffeeba; }
+
+/* ── Cropper ──────────────────────────────────────────── */
+.cropper-wrap {
+    background: #111;
+    border-radius: var(--radio-sm);
+    overflow: hidden;
+    height: fit-content;
+    margin-bottom: .5rem;
+    
+}
+.cropper-wrap img { max-width: 100%; display: block; }
+.cropper-acciones {
+    display: flex;
+    gap: .5rem;
+    padding: .5rem;
+    background: #222;
+    flex-wrap: wrap;
+}
+.btn-sm {
+    padding: .35rem .75rem;
+    font-size: .8rem;
+    font-weight: 600;
+    border-radius: var(--radio-sm);
+    border: 1px solid var(--borde);
+    background: var(--bg2);
+    cursor: pointer;
+    transition: background .15s;
+}
+.btn-sm:hover { background: var(--borde); }
+.btn-primario.btn-sm {
+    background: var(--naranja);
+    color: white;
+    border-color: var(--naranja);
+}
+.btn-primario.btn-sm:hover { background: var(--naranja2); }
+@media(max-width:600px){
+    .campo-fila{
+        display: flex;
+        flex-direction: column;
+    }
+    .catalogo-titulo {
+        /*font-family: var(--font-cuerpo);*/
+        font-size: 1.5rem;
+        /*font-weight: 800;
+        color: var(--verde);*/
+    }
+    .alerta-precio-badge {
+        font-size: 0.8rem;
+        /*display: inline-block;
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffc107;
+        padding: .4rem .9rem;
+        border-radius: 20px;
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s;*/
+    }
+    .btn-nuevo {
+        padding: .8rem 1.25rem; 
+        /*
+        background: var(--verde);
+        color: var(--blanco);
+        padding: .6rem 1.25rem;
+        border-radius: var(--radio-sm);
+        font-size: .9rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background .2s;
+        white-space: nowrap;*/
+    }
+    .barra-busqueda input {
+        font-size: 1rem;
+        /*width: 100%;
+        max-width: 460px;
+        padding: .65rem 1rem;
+        border: 1.5px solid var(--borde);
+        border-radius: 30px;
+        background: var(--blanco);
+        font-size: .9rem;
+        color: var(--texto);
+        transition: border-color .2s;*/
+    }
+    .filtros {
+        gap: .25rem;
+        /*display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-bottom: 1.75rem;*/
+    }
+    .filtro-btn {
+        padding: .75rem 1rem;
+        font-size: .70rem;
+        font-weight: 500;
+        /*padding: .45rem 1.1rem;
+        border-radius: 30px;
+        border: 1.5px solid var(--borde);
+        font-size: .83rem;
+        
+        color: var(--texto2);
+        background: var(--blanco);
+        cursor: pointer;
+        transition: all .2s;
+        white-space: nowrap;*/
+    }
+}
+.preview-wrap{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.preview-wrap img{
+    padding: 0.2rem;
+    align-self: center;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radio-sm);
+    border: 2px solid var(--borde);
+}
+/* ── Cropper mejorado para móvil ─────────────────────────────────────────── */
+/* Bordes del área de recorte más gruesos y negros */
+.preview-botones {
+    display: none;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+.btn-rerecortar, .btn-quitarfondo {
+    font-size: 0.8rem;
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+.btn-rerecortar { background: #f0f0f0; color: #444; }
+.btn-rerecortar:hover { background: #e0e0e0; }
+.btn-quitarfondo { background: #fff3cd; color: #856404; border-color: #ffc107; }
+.btn-quitarfondo:hover { background: #ffe69c; }
+.btn-quitarfondo:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.cropper-view-box,
+.cropper-face {
+    border-radius: 0;
+}
+.cropper-view-box {
+    outline: 4px solid #000 !important;
+    outline-color: rgba(0, 0, 0, 1) !important;
+}
+.cropper-line {
+    background-color: #000 !important;
+    opacity: 1 !important;
+}
+/* Líneas más gruesas */
+.cropper-dashed {
+    border-color: rgba(0,0,0,0.6) !important;
+    border-width: 2px !important;
+}
+.cropper-point {
+    background-color: #000 !important;
+    width: 18px !important;
+    height: 18px !important;
+    opacity: 1 !important;
+    border-radius: 3px !important;
+}
+.cropper-point.point-se {
+    width: 22px !important;
+    height: 22px !important;
+}
+/* Móvil: cropper más grande y manejable */
+@media (max-width: 600px) {
+    .cropper-wrap {
+        max-height: 75vh;
+        overflow-y: auto;
+    }
+    .cropper-container {
+        max-height: 65vh !important;
+    }
+    .cropper-point {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .cropper-point.point-se {
+        width: 28px !important;
+        height: 28px !important;
+    }
+}

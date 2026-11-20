@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MiPos{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {% block css_extra %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="{{ url_for('index') }}" class="nav-logo">Matos</a>
+    <div class="nav-links">
+        <a href="{{ url_for('catalogo') }}" class="nav-link {% if request.endpoint == 'catalogo' %}activo{% endif %}">Catálogo</a>
+        {% if session.get('rol') == 'admin' %}
+            <a href="{{ url_for('pagina_configuracion') }}" class="nav-link {% if request.endpoint == 'pagina_configuracion' %}activo{% endif %}">Configuración</a>
+        {% endif %}
+    </div>
+    <div class="nav-right">
+        {% if session.get('rol') %}
+            <span class="badge-rol badge-{{ session.get('rol') }}">
+                {% if session.get('rol') == 'admin' %}⚙ Admin{% else %}👤 Empleado{% endif %}
+            </span>
+            <a href="{{ url_for('salir') }}" class="btn-salir">Salir</a>
+        {% else %}
+            <a href="{{ url_for('acceso') }}" class="btn-acceso">Acceder</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% if mensajes %}
+        <div class="flash-container">
+            {% for categoria, mensaje in mensajes %}
+                <div class="flash flash-{{ categoria }}">{{ mensaje }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<main class="main-content">
+    {% block contenido %}{% endblock %}
+</main>
+
+
+
+
+<!-- Tu script base existente -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<!-- Aquí se inyectarán tus oyentes específicos de catálogo y configuración -->
+{% block js_extra %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,94 @@
+/* ── Pantalla de acceso PIN ───────────────────────────── */
+.acceso-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+}
+
+.acceso-card {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: var(--sombra);
+    text-align: center;
+    border: 1px solid var(--borde);
+}
+
+.acceso-icono {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.acceso-card h2 {
+    font-family: var(--font-titulo);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--verde);
+    margin-bottom: .4rem;
+}
+
+.acceso-sub {
+    font-size: .85rem;
+    color: var(--texto2);
+    margin-bottom: 2rem;
+}
+
+/* Display del PIN */
+.pin-display {
+    font-family: var(--font-titulo);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: var(--verde);
+    background: var(--bg);
+    border: 2px solid var(--borde);
+    border-radius: var(--radio-sm);
+    padding: .75rem 1rem;
+    margin-bottom: 1.5rem;
+    min-height: 3rem;
+}
+
+/* Grid de botones */
+.pin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .6rem;
+}
+
+.pin-btn {
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: var(--font-titulo);
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-sm);
+    background: var(--bg);
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+    color: var(--texto);
+}
+
+.pin-btn:hover {
+    background: var(--bg2);
+    transform: scale(1.05);
+}
+
+.pin-btn:active {
+    transform: scale(.96);
+}
+
+.pin-ok {
+    background: var(--verde);
+    color: var(--blanco);
+    border-color: var(--verde);
+}
+.pin-ok:hover { background: var(--verde2); }
+
+.pin-del {
+    background: var(--bg2);
+    color: var(--naranja);
+    border-color: var(--naranja);
+}

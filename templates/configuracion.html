@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% block title %}Configuración — MiPos{% endblock %}
+{% block css_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/configuracion.css') }}">
+{% endblock %}
+
+{% block contenido %}
+    <div class="config-wrap">
+        <h1 class="config-titulo">Configuración</h1>
+
+        <!-- PINs y alerta -->
+        <section class="config-seccion">
+            <h2>🔑 PINs de acceso y alertas</h2>
+            <form method="POST" action="{{ url_for('pagina_configuracion') }}" class="config-form">
+                <div class="campo-fila">
+                    <div class="campo">
+                        <label>PIN Administrador (actual: {{ pin_admin }})</label>
+                        <input type="text" name="pin_admin" placeholder="Nuevo PIN" maxlength="8">
+                    </div>
+                    <div class="campo">
+                        <label>PIN Empleado (actual: {{ pin_empleado }})</label>
+                        <input type="text" name="pin_empleado" placeholder="Nuevo PIN" maxlength="8">
+                    </div>
+                </div>
+                <div class="campo">
+                    <label>Días sin cambio de precio para mostrar alerta (actual: {{ dias_alerta }} días)</label>
+                    <input type="number" name="dias_alerta_precio" min="1" max="365"
+                        placeholder="{{ dias_alerta }}" style="max-width:120px">
+                    <p class="campo-nota">Cuando un producto lleve más de este tiempo con el mismo precio, aparecerá una notificación en el catálogo.</p>
+                </div>
+                <button type="submit" class="btn-primario">Guardar</button>
+            </form>
+        </section>
+
+        <!-- Categorías -->
+        <section class="config-seccion">
+            <h2>🏷 Gestionar categorías</h2>
+            <form method="POST" action="{{ url_for('nueva_categoria') }}" class="config-form inline-form">
+                <input type="text" name="nombre" placeholder="Nueva categoría..." required>
+                <button type="submit" class="btn-primario">Agregar</button>
+            </form>
+            <div class="lista-categorias">
+                {% for c in categorias %}
+                <div class="cat-item">
+                    <span>{{ c.nombre }}</span>
+                    <a href="{{ url_for('eliminar_categoria', id_cat=c.id) }}"
+                    class="btn-danger-sm"
+                    onclick="return confirm('¿Eliminar categoría «{{ c.nombre }}»?')">✕</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Alertas de precio -->
+        {% if productos_alerta %}
+        <section class="config-seccion alerta-seccion" id="seccionAct">
+            <h2>⚠ Productos con precio sin actualizar ({{ productos_alerta|length }})</h2>
+            <p class="config-desc">Estos productos llevan más de {{ dias_alerta }} días con el mismo precio de venta.</p>
+            <div class="tabla-alertas">
+                <div class="tabla-header">
+                    <span>Producto</span>
+                    <span>Categoría</span>
+                    <span>Precio actual</span>
+                    <span>Último cambio</span>
+                    <span>Confirmación</span>
+                </div>
+                {% for p in productos_alerta %}
+                <div class="tabla-fila" id="fila-alerta-{{ p.id }}" style="position: relative;">
+                    <!-- Barra de progreso (nueva) -->
+                    <div id="progress-{{ p.id }}" class="progress-bar"></div>
+
+                    <span id="nombre">
+                    <span class="texto-nombre">{{ p.nombre }}</span>
+                        <button class="btn-info-producto" 
+                            onclick="mostrarInfo(this, '{{ p.categoria or '—' }}', '{{ p.fecha_ultimo_precio }}')"
+                            title="Ver detalles">
+                            <img src="{{ url_for('static',filename='img/productos/iconos/preguntas-mas-frecuentes.png') }}" alt="info"class="icono-info">
+                        </button>
+                        <span class="info-popup" style="display:none;"></span>
+                    </span>
+                    <span class="text-muted">{{ p.categoria or '—' }}</span>
+                    <span class="celda-precio">
+                        <input class="input-precio-alerta" 
+                            type="number" 
+                            step="0.10" 
+                            min="0"
+                            value="{{ '%.2f'|format(p.precio_venta) }}"
+                            data-original="{{ '%.2f'|format(p.precio_venta) }}">
+                    </span>
+                    <span class="text-muted">{{ p.fecha_ultimo_precio }}</span>
+        
+                    <div class="acciones-alerta">
+                        <button class="botonCheck" type="button" onclick="confirmarPrecioDinamico({{ p.id }})">
+                            <img class="checkxd" src="{{ url_for('static', filename='img/productos/iconos/check_verde.png') }}">
+                        </button>
+            
+                        <!-- Botón Deshacer con estilo forzado para que sea visible -->
+                        <button id="undo-{{ p.id }}" class="btn-undo" 
+                                style="display: none; opacity: 1 !important; pointer-events: auto !important; z-index: 10;" 
+                                onclick="deshacerConfirmacion({{ p.id }})">
+                            ↩ Deshacer
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+    </div>
+<script>
+let timers = {}; 
+
+// Al inicio del script, después de "let timers = {};"
+document.addEventListener('input', function(e) {
+    if (e.target.classList.contains('input-precio-alerta')) {
+        const original = parseFloat(e.target.dataset.original);
+        const actual = parseFloat(e.target.value);
+        if (Math.abs(actual - original) > 0.001) {
+            e.target.classList.add('modificado');
+        } else {
+            e.target.classList.remove('modificado');
+        }
+    }
+});
+
+function confirmarPrecioDinamico(id) {
+    const fila = document.getElementById(`fila-alerta-${id}`);
+    const btnUndo = document.getElementById(`undo-${id}`);
+    const progress = document.getElementById(`progress-${id}`);
+    const btnCheck = fila.querySelector('.botonCheck');
+    const inputPrecio = fila.querySelector('.input-precio-alerta');
+
+    const precioOriginal = parseFloat(inputPrecio.dataset.original);
+    const precioNuevo = parseFloat(inputPrecio.value);
+    const preciocambio = Math.abs(precioNuevo - precioOriginal) > 0.001;
+
+    // Si el precio cambió, actualizarlo primero
+    if (preciocambio) {
+        const formData = new FormData();
+        formData.append('id', id);
+        // Necesitamos los demás campos — los tomamos de los spans
+        const spans = fila.querySelectorAll('span');
+        formData.append('nombre', spans[1] ? spans[1].textContent.trim() : '');
+        formData.append('precio_venta', precioNuevo);
+
+        fetch('/producto/editar_precio_rapido', {
+            method: 'POST',
+            body: formData
+        }).then(r => r.json()).then(data => {
+            if (data.ok) {
+                inputPrecio.dataset.original = precioNuevo;
+            }
+        });
+    }
+
+    // Animación de confirmación normal
+    const textos = fila.querySelectorAll('span');
+    textos.forEach(t => t.style.opacity = "0.2");
+    inputPrecio.style.opacity = "0.2";
+    if (btnCheck) btnCheck.style.opacity = "0.1";
+
+    fila.style.pointerEvents = "none";
+    btnUndo.style.display = "inline-block";
+    btnUndo.style.pointerEvents = "auto";
+
+    progress.style.width = "100%";
+    progress.style.transition = "width 4s linear";
+
+    timers[id] = setTimeout(() => {
+        ejecutarConfirmacionReal(id);
+    }, 4000);
+}
+
+
+function deshacerConfirmacion(id) {
+    clearTimeout(timers[id]);
+    delete timers[id];
+
+    const fila = document.getElementById(`fila-alerta-${id}`);
+    const btnUndo = document.getElementById(`undo-${id}`);
+    const progress = document.getElementById(`progress-${id}`);
+    const btnCheck = fila.querySelector('.botonCheck');
+    const inputPrecio = fila.querySelector('.input-precio-alerta');
+
+    // Restauramos todo a la normalidad
+    const textos = fila.querySelectorAll('span');
+    textos.forEach(t => t.style.opacity = "1");
+    if(btnCheck) btnCheck.style.opacity = "1";
+    inputPrecio.style.opacity = "1";
+
+    fila.style.pointerEvents = "auto";
+    btnUndo.style.display = "none";
+    
+    progress.style.transition = "none";
+    progress.style.width = "0%";
+}
+
+
+function ejecutarConfirmacionReal(id) {
+    fetch(`/producto/confirmar_precio/${id}`, { method: 'POST' })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            // Eliminar la fila con una animación suave
+            const fila = document.getElementById(`fila-alerta-${id}`);
+            fila.style.transition = "0.5s";
+            fila.style.height = "0";
+            fila.style.margin = "0";
+            fila.style.overflow = "hidden";
+            setTimeout(() => fila.remove(), 500);
+        }
+    });
+}
+
+function mostrarInfo(btn, categoria, fecha) {
+    const popup = btn.nextElementSibling;
+    if (popup.style.display === 'none') {
+        // Cerrar otros popups abiertos
+        document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
+        popup.innerHTML = `📂 ${categoria}<br>📅 ${fecha}`;
+        popup.style.display = 'block';
+    } else {
+        popup.style.display = 'none';
+    }
+}
+
+// Cerrar popup al tocar fuera
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.btn-info-producto')) {
+        document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
+    }
+});
+
+
+
+
+
+</script>
+
+
+{% endblock %}
